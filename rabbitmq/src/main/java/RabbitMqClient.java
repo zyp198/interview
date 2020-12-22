@@ -16,6 +16,7 @@ public class RabbitMqClient {
     private static final int port = 5672;
     private static final String username = "root";
     private static final String password = "root";
+
     public static void main(String[] args) throws IOException, InterruptedException {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(ip_address);
@@ -28,19 +29,19 @@ public class RabbitMqClient {
             System.out.println("连接成功");
             Channel channel = conn.createChannel();
             //创建交换器
-            channel.exchangeDeclare(exchange_name,"direct",true,false,null);
+            channel.exchangeDeclare(exchange_name, "HelloWorld", true, false, null);
             //创建队列
             /**
              * 参数1 队列名 参数2 是否持久化队列 false表示不持久化 参数3 是否独占队列 true表示独占 ，参数5 额外附加参数
              */
-            channel.queueDeclare(queue_name,true,false,false,null);
-            channel.queueDeclare(queue_test,true,false,false,null);
+            channel.queueDeclare(queue_name, true, false, false, null);
+            channel.queueDeclare(queue_test, true, false, false, null);
             //将交换器与队列通过路由键绑定
-            channel.queueBind(queue_name,exchange_name,routing_key);
+            channel.queueBind(queue_name, exchange_name, routing_key);
             //发送一条持久化的消息 该条消息在rabbitmq重启之后仍然在队列中
             for (int i = 0; i < 10; i++) {
-                String message = "Hello World "+i;
-                channel.basicPublish(exchange_name,routing_key, MessageProperties.PERSISTENT_TEXT_PLAIN,message.getBytes());
+                String message = "Hello World " + i;
+                channel.basicPublish(exchange_name, routing_key, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
                 TimeUnit.SECONDS.sleep(1);
             }
             //关闭资源
@@ -51,7 +52,7 @@ public class RabbitMqClient {
             e.printStackTrace();
         } catch (TimeoutException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             System.out.println("资源关闭");
         }
 

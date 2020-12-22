@@ -15,9 +15,9 @@ public class RedisConfig {
     private RedisTemplate redisTemplate;
 
     @Test
-    public void test(){
+    public void test() {
         Student stu = new Student(1, "Bob");
-        redisTemplate.opsForValue().set("stu",stu);
+        redisTemplate.opsForValue().set("stu", stu);
         System.out.println(redisTemplate.opsForValue().get("stu"));
     }
 }
