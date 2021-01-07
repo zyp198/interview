@@ -3,6 +3,8 @@ package org.fighter;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Transaction;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class TestApp {
     public static void main(String[] args) {
         Jedis jedis = new Jedis("39.98.130.209", 6379, 100000);
@@ -24,6 +26,8 @@ public class TestApp {
         }
         System.out.println(jedis.get("user3"));
         System.out.println(jedis.get("user4"));
+        AtomicInteger atomicInteger = new AtomicInteger(5);
+        atomicInteger.getAndDecrement();
     }
 
 
