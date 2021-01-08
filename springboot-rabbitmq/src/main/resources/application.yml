@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: rabbitmq-springboot-test
+  rabbitmq:
+    host: 47.110.157.232
+    port: 5672
+    password: root
+    username: root
+server:
+  port: 8080
