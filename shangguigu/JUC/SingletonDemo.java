@@ -1,4 +1,4 @@
-package code.shangguigu;
+package code.shangguigu.JUC;
 
 public class SingletonDemo {
 

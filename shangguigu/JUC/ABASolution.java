@@ -1,4 +1,4 @@
-package code.shangguigu;
+package code.shangguigu.JUC;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
