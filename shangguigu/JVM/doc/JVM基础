@@ -45,19 +45,33 @@ JVM
 	5.3 对于栈来说不存在垃圾回收的问题。（原因：线程结束栈内存也就释放）
 	5.4 线程私有
 	5.5 8种基本类型的变量+对象的引用+实例方法
+	    5.5.1 什么是栈帧？等同于java方法。在栈中的方法叫做栈帧
+	    5.5.2 栈的运行原理
+	    5.5.3 Exception in thread "main" java.lang.StackOverflowError
 
-6、方法区(java7 永久带 ; java8 元空间 mataspace)
+6、方法区(java7 永久带 ; java8 元空间 mataspace) 永久代使用的是堆内存 元空间使用的是本机物理内存
     6.1 线程共享区域
     6.2 存储一个类的结构信息，例如运行时常量池，字段和方法数据、构造方法和普通方法的字节码内容
     6.3 方法区是一套规范。它的实现有两种方式，分别是永久代【jdk7】和元空间【jdk8】
     6.4 实例变量存放在堆内存中【可以GC】，和方法区无关
         什么是实例变量？引用变量？实例方法？
-7、堆空间
+7、堆
+    7.1 一个JVM的实例只存在一个堆内存，堆内存的大小是可以调节的。类加载器读取了类文件后，需要把类、方法、常变量放到堆内存中。保存所有引用类型的真实信息。
+    7.2 堆内存分为 新生区【伊甸区 幸存者0区 幸存者1区 = 8 1 1】、养老区、永久区
+    7.3 Java.lang.OutOfMemoryError:java heap space?
+        7.3.1 java 堆内存不够用
+        7.3.2 代码中创建了大量的大对象，并且长时间不被GC收集
+    7.4 第一次GC什么时候触发？MinorGC过程 （复制-》交换-》清空）
+        7.4.1 首先在eden区满的时候会触发第一次GC，把活着的对象拷贝到SurvivorFrom区
+        7.4.2 当再次触发GC的时候会扫描Eden和SurvivorFrom区，对这两个区域进行垃圾回收，经过这次回收还存活的对象，则直接复制到SurvivorTo区域 复制的过程是什么样的？
+        7.4.3 清空Eden、SurvivorFrom区
+        7.4.4 SurvivorTo 和 SurvivorFrom交换
+              最后SurvivorTo和SurvivorFrom互换，原先SurvivorTo成为下一次GC扫描时的SurvivorFrom 原则是谁空谁是SurvivorTo区
 
 8、VM参数
 -Xms8m -Xmx8m -XX:+PrintGCDetails
--Xms start jvm初始化获取内存大小
--Xmx max jvm能获取的最大内存
+-Xms start jvm堆内存 初始化分配内存大小 默认为物理内存的1/64
+-Xmx max jvm堆内存 能获取的最大内存 默认为物理内存的1/4
 
 计算机中的速度
 CPU -> 缓存 —> 内存 -> 硬盘
