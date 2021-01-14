@@ -1,2 +1,57 @@
-java.lang.OutOfMemoryError:java heap space
+java.lang.StackOverflowError 【java栈 512k ~1024k】
+在java栈中，递归调用
+Throwable
+Error Exception
+VirtualMachineError
+OutOfMemoryError StackOverflowError
+
+java.lang.OutOfMemoryError 每一个异常产生的demo
+java heap space
+GC overhead limit exceeded GC回收时间过长，98%用来GC,2%回收。效率太低 不划算！
+Direct Buffer memory 本地内存不够 nio程序
+unable to create new native thread 使用的线程太多
+metaspace
+
 验证demo?
+GC GC前后区别？
+FullGC
+串行垃圾收集齐
+用进废退 生物学原则
+自定义配置比例：-XX:NewRatio 配置年轻代和老年代在堆中的占比
+—XX:MaxTenuringThreshold
+强引用 软引用 弱引用 虚引用？
+强引用？无论内存是否充足，强引用对象都不会被GC
+软引用？内存够，不会回收；内存不够就回收
+弱引用？无论内存是否充足，都会GC
+故意产生大对象而配置小内存，产生OOM，查看软引用是否被回收
+软引用和弱引用的适用场景
+    1 假设有一个应用需要读取大量的本地图片
+Mybatis 缓存适用了大量的软引用弱引用
+虚引用【weakReference】
+    作用：跟踪对象被垃圾回收的状态。虚引用必须和引用队列【ReferenceQueue】联合使用
+    注意：被回收之前先放到引用队列里面保存。
+垃圾回收算法：4种 引用计数 复制拷贝 标记清除 标记整理
+垃圾回收器：Serial  Parallel CMS G1【特殊？】
+串行 劣势：垃圾回收过程中要暂停其他线程 优势：单线程 简单 CPU利用高效
+并行 劣势：
+并发
+串行 并行 -> STW问题 （Stop the world）
+怎么查看服务器默认的垃圾收集器？java -XX:+printCommandLineFlags -version
+    生产上如何配置垃圾收集器？
+    谈谈你对垃圾收集器的理解？
+Serial
+ParNew 只针对于新生代由串行->并行【多线程】，老年代不变
+Parallel
+ParallelOld
+CMS
+SerialOld
+如何选择垃圾收集器？
+G1
+G1底层原理
+G1参数配置及CMS的比较
+
+Deprecated vt 强烈反对
+Tenured adj 年老代
+
+
+
