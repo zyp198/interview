@@ -43,15 +43,40 @@ Serial
 ParNew 只针对于新生代由串行->并行【多线程】，老年代不变
 Parallel
 ParallelOld
-CMS
+CMS Concurrent Mark Sweep
+    初始标记
+    并发标记
+    重新标记
+    标记清除
+    优点：
+        程序一边运行，一边GC
+    缺点：
+        产生垃圾碎片
+    担保机制--CMS->SerialOld【能够解决但是会造成STW问题】
+
 SerialOld
 如何选择垃圾收集器？
+
 G1
+    G1设计的目的是为了取缔CMS收集器
+    G1是一个有整理内存过程的垃圾收集器，不会产生很多的垃圾碎片
+    G1的【STW问题】更可控，添加了预测机制，用户可以指定期望停顿时间
+
 G1底层原理
+
 G1参数配置及CMS的比较
+    标记清除一定会产生垃圾碎片
+
+实际工作中，如何结合springboot进行JVM调优？
+    java -server -Xms1024m -Xmx1024 =XX:+UseG1GC
+                初始内存    最大能获取的内存    垃圾收集器
+
 
 Deprecated vt 强烈反对
 Tenured adj 年老代
-
+Scavenge vt 清除 打扫
+Sweep v 清除
+garbage collector
+Humongous adj 巨大无比的
 
 
